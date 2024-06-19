@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.21..)
 
 if(NOT SOBJECTIZER_MASTER_PROJECT)
 	set(SOBJECTIZER_MASTER_PROJECT OFF)
@@ -31,7 +31,7 @@ endif()
 
 get_filename_component(CURRENT_FILE_DIR ${CMAKE_CURRENT_LIST_FILE} DIRECTORY)
 get_filename_component(CURRENT_FILE_DIR ${CURRENT_FILE_DIR} DIRECTORY)
-set(SO_5_INCLUDE_PATH ${CURRENT_FILE_DIR})
+set(SO_5_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 unset(CURRENT_FILE_DIR)
 
 set(SO_5_SRC exception.cpp
@@ -69,7 +69,7 @@ set(SO_5_SRC exception.cpp
 	impl/mt_env_infrastructure.cpp
 	impl/simple_mtsafe_st_env_infrastructure.cpp
 	impl/simple_not_mtsafe_st_env_infrastructure.cpp
-	
+
 	stats/repository.cpp
 	stats/std_names.cpp
 
@@ -77,7 +77,7 @@ set(SO_5_SRC exception.cpp
 	stats/impl/ds_agent_core_stats.cpp
 	stats/impl/ds_mbox_core_stats.cpp
 	stats/impl/ds_timer_thread_stats.cpp
-	
+
 	disp/abstract_work_thread.cpp
 	disp/mpsc_queue_traits/pub.cpp
 	disp/mpmc_queue_traits/pub.cpp
@@ -126,7 +126,7 @@ if(SOBJECTIZER_BUILD_SHARED)
 	)
 	target_include_directories(${SO_5_SHARED_LIB}
 		PUBLIC
-			$<BUILD_INTERFACE:${SO_5_INCLUDE_PATH}>
+			$<BUILD_INTERFACE:${SO_5_INCLUDE_PATH}/..>
 			$<INSTALL_INTERFACE:include>
 	)
 	target_link_libraries(${SO_5_SHARED_LIB} ${CMAKE_THREAD_LIBS_INIT})
@@ -158,7 +158,7 @@ if(SOBJECTIZER_BUILD_STATIC)
 	)
 	target_include_directories(${SO_5_STATIC_LIB}
 		PUBLIC
-			$<BUILD_INTERFACE:${SO_5_INCLUDE_PATH}>
+			$<BUILD_INTERFACE:${SO_5_INCLUDE_PATH}/..>
 			$<INSTALL_INTERFACE:include>
 	)
 	target_link_libraries(${SO_5_STATIC_LIB} ${CMAKE_THREAD_LIBS_INIT})
@@ -205,7 +205,7 @@ if(SOBJECTIZER_INSTALL)
 	write_basic_package_version_file(
 		${SO_5_CONFIG_VERSION_FILE}
 		VERSION ${SO_5_VERSION}
-		COMPATIBILITY ExactVersion 
+		COMPATIBILITY ExactVersion
 	)
 	configure_package_config_file(
 		"cmake/sobjectizer-config.cmake.in"
